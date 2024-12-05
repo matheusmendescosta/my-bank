@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/health", (req, res) => {
+app.use("/api/v1/health", (req, res) => {
   res.status(200).json({
     msg: "health",
   });
