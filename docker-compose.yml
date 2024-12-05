@@ -50,6 +50,17 @@ services:
     networks:
       - backend-network
 
+  ngrok:
+    container_name: ngrok
+    image: ngrok/ngrok
+    volumes:
+      - ./ngrok.yml:/home/ngrok/.ngrok2/ngrok.yml
+    ports:
+      - '4040:4040'
+    command: ["ngrok", "http", "web:3333"]
+    networks:
+      - backend-network
+
 networks:
   backend-network:
     name: backend-network

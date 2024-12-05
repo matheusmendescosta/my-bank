@@ -1,0 +1,6 @@
+authtoken: 2pnaOgk64arA78ouJAMT9NKeNaO_7iBRxFRtCigPe4RmTZW8Q
+web_addr: 0.0.0.0:4040
+tunnels:
+  web:
+    proto: http
+    addr: web:3333
