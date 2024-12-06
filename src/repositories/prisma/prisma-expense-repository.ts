@@ -4,8 +4,10 @@ import { ExpenseRepository } from "../expense-repository";
 
 
 export class PrismaExpenseRepository implements ExpenseRepository {
-    async list(page: number = 1, totalPage: number = 2, userId?: string): Promise<Expense[]> {
-        const expense = await prisma.expense.findMany({
+    async list(page: number = 1, totalPage: number = 2, userId?: string): Promise<{ totalCount: number, data: Expense[] }> {
+        const count = await prisma.expense.count()
+
+        const data = await prisma.expense.findMany({
             where: userId ? { userId } : {},
             take: totalPage,
             skip: (page - 1) * totalPage,
@@ -14,7 +16,7 @@ export class PrismaExpenseRepository implements ExpenseRepository {
             }
         })
 
-        return expense
+        return { totalCount: count, data }
     }
 
 
