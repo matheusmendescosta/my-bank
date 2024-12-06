@@ -3,8 +3,8 @@ import { Expense } from "@prisma/client";
 
 
 interface ListExpenseServiceRequest {
-    page?: number
-    totalPage?: number
+    offset?: number
+    limit?: number
     userId?: string
 }
 
@@ -15,9 +15,9 @@ interface ListExpenseServiceResponse {
 export class ListExpenseService {
     constructor(private expenseRepository: ExpenseRepository) { }
 
-    async execute({ page, totalPage, userId }: ListExpenseServiceRequest): Promise<ListExpenseServiceResponse> {
+    async execute({ offset, limit, userId }: ListExpenseServiceRequest): Promise<ListExpenseServiceResponse> {
 
-        const expenses = await this.expenseRepository.list(page, totalPage, userId)
+        const expenses = await this.expenseRepository.list(offset, limit, userId)
 
         return { expenses }
     }
