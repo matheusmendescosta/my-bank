@@ -4,7 +4,7 @@ import { ExpenseRepository } from "../expense-repository";
 
 
 export class PrismaExpenseRepository implements ExpenseRepository {
-    async list(offset: number = 1, limit: number = 2, userId?: string): Promise<{ totalCount: number, offset: number, limit: number, data: Expense[] }> {
+    async list(offset: number = 1, limit: number = 2, userId?: string): Promise<{ totalCount: number, hasMore: boolean, offset: number, limit: number, data: Expense[] }> {
         const count = await prisma.expense.count()
 
         const data = await prisma.expense.findMany({
@@ -16,7 +16,9 @@ export class PrismaExpenseRepository implements ExpenseRepository {
             }
         })
 
-        return { totalCount: count, offset, limit, data }
+        const hasMore = count > limit ? true : false
+
+        return { totalCount: count, hasMore, offset, limit, data }
     }
 
 
