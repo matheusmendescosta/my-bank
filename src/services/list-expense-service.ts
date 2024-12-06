@@ -9,7 +9,7 @@ interface ListExpenseServiceRequest {
 }
 
 interface ListExpenseServiceResponse {
-    expenses: Expense[]
+    expenses: { totalCount: number; offset: number; limit: number, data: Expense[] }
 }
 
 export class ListExpenseService {
