@@ -14,6 +14,6 @@ app.use("/api/v1/health", (req, res) => {
   });
 });
 
-app.use("/api/v1/", route)
+app.use("/api/v1/", route);
 
 export default app;
