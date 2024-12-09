@@ -3,9 +3,9 @@ import { UserRepository } from "@/repositories/user-repository";
 import { Expense } from "@prisma/client";
 
 interface CreateExpenseRequest {
-  name: string;
+  name: string | null;
   value: number;
-  description: string;
+  description: string | null;
   userId: string;
 }
 

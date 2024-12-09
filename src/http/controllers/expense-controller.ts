@@ -2,12 +2,12 @@ import { PrismaExpenseRepository } from "@/repositories/prisma/prisma-expense-re
 import { PrismaUserRepository } from "@/repositories/prisma/prisma-user-repository";
 import { CreateExpenseService } from "@/services/create-expense-service";
 import { Request, Response } from "express";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 
 const bodySchema = z.object({
-  name: z.string().min(1, "require"),
-  value: z.number().min(1, "required"),
-  description: z.string(),
+  name: z.string().nullable(),
+  value: z.number().min(1, "value is required"),
+  description: z.string().nullable(),
   userId: z.string(),
 });
 
@@ -24,7 +24,12 @@ export async function CreateExpense(request: Request, response: Response) {
 
     return response.status(201).json({ expense });
   } catch (error) {
-    console.log("error ->", error);
+    if (error instanceof ZodError) {
+      return response.status(400).json({
+        error: "validation error",
+        details: error.errors,
+      });
+    }
 
     return response.status(500).json({ error: "internal server error" });
   }
