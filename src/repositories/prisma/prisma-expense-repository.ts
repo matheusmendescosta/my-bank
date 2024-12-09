@@ -5,7 +5,7 @@ import { ExpenseRepository } from "../expense-repository";
 export class PrismaExpenseRepository implements ExpenseRepository {
   async list(
     offset: number = 1,
-    limit: number = 2,
+    limit: number = 25,
     userId?: string
   ): Promise<{
     totalCount: number;
@@ -25,7 +25,9 @@ export class PrismaExpenseRepository implements ExpenseRepository {
       },
     });
 
-    const hasMore = count > limit ? true : false;
+    const totalPages = Math.ceil(count / limit);
+    
+    const hasMore = offset < totalPages;
 
     return { totalCount: count, hasMore, offset, limit, data };
   }
