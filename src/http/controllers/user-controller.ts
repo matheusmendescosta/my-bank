@@ -6,7 +6,7 @@ import { z, ZodError } from "zod";
 
 const bodySchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email(),
+  email: z.string().email("Email is required"),
 });
 
 export async function Create(request: Request, response: Response) {

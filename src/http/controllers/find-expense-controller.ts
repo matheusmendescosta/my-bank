@@ -7,8 +7,8 @@ const searchBodySchema = z.object({
   offset: z.coerce.number().optional(),
   limit: z.coerce
     .number()
-    .min(1, "Precisa ter pelo menos 1 item")
-    .max(100, "precisa ter menos de 100 items ")
+    .min(1, "Must have at least 1 item")
+    .max(100, "must have less than 100 items")
     .optional(),
   userId: z.string().optional(),
 });
