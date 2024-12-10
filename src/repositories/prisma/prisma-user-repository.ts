@@ -11,9 +11,17 @@ export class PrismaUserRepository implements UserRepository {
     return user;
   }
   async findById(id: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findUnique({ where: { id }, include: { expenses: { orderBy: { createAt: 'desc' } } } });
 
-    return user;
+    const totalExpenses = await prisma.expense.aggregate({
+      where: { userId: id },
+      _sum: { value: true },
+    });
+
+    return {
+      ...user,
+      totalExpenses: totalExpenses._sum.value || 0,
+    } as User & { totalExpenses: number };
   }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
