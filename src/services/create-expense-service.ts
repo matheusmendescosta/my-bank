@@ -1,6 +1,6 @@
-import { ExpenseRepository } from "@/repositories/expense-repository";
-import { UserRepository } from "@/repositories/user-repository";
-import { Expense } from "@prisma/client";
+import { ExpenseRepository } from '@/repositories/expense-repository';
+import { UserRepository } from '@/repositories/user-repository';
+import { Expense } from '@prisma/client';
 
 interface CreateExpenseRequest {
   name: string | null;
@@ -14,21 +14,13 @@ interface CreateExpenseResponse {
 }
 
 export class CreateExpenseService {
-  constructor(
-    private expenseRepository: ExpenseRepository,
-    private userRepository: UserRepository
-  ) {}
+  constructor(private expenseRepository: ExpenseRepository, private userRepository: UserRepository) {}
 
-  async execute({
-    name,
-    value,
-    description,
-    userId,
-  }: CreateExpenseRequest): Promise<CreateExpenseResponse> {
+  async execute({ name, value, description, userId }: CreateExpenseRequest): Promise<CreateExpenseResponse> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
-      console.log("user not found");
+      console.log('user not found');
     }
 
     const expense = await this.expenseRepository.create({

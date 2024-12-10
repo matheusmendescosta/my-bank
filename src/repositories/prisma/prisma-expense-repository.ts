@@ -1,6 +1,6 @@
-import { Prisma, Expense } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
-import { ExpenseRepository } from "../expense-repository";
+import { Prisma, Expense } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
+import { ExpenseRepository } from '../expense-repository';
 
 export class PrismaExpenseRepository implements ExpenseRepository {
   async list(
@@ -21,12 +21,12 @@ export class PrismaExpenseRepository implements ExpenseRepository {
       take: limit,
       skip: (offset - 1) * limit,
       orderBy: {
-        createAt: "desc",
+        createAt: 'desc',
       },
     });
 
     const totalPages = Math.ceil(count / limit);
-    
+
     const hasMore = offset < totalPages;
 
     return { totalCount: count, hasMore, offset, limit, data };

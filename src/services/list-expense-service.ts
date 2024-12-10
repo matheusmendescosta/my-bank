@@ -1,5 +1,5 @@
-import { ExpenseRepository } from "@/repositories/expense-repository";
-import { Expense } from "@prisma/client";
+import { ExpenseRepository } from '@/repositories/expense-repository';
+import { Expense } from '@prisma/client';
 
 interface ListExpenseServiceRequest {
   offset?: number;
@@ -19,11 +19,7 @@ interface ListExpenseServiceResponse {
 export class ListExpenseService {
   constructor(private expenseRepository: ExpenseRepository) {}
 
-  async execute({
-    offset,
-    limit,
-    userId,
-  }: ListExpenseServiceRequest): Promise<ListExpenseServiceResponse> {
+  async execute({ offset, limit, userId }: ListExpenseServiceRequest): Promise<ListExpenseServiceResponse> {
     const expenses = await this.expenseRepository.list(offset, limit, userId);
 
     return { expenses };
