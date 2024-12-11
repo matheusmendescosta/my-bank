@@ -1,6 +1,7 @@
 import { Prisma, User } from '@prisma/client';
 import { UserRepository } from '../user-repository';
 import { prisma } from '@/lib/prisma';
+import { UserNotFound } from '@/services/errors/user-not-found';
 
 export class PrismaUserRepository implements UserRepository {
   async findByEmail(email: string): Promise<User | null> {
@@ -10,8 +11,11 @@ export class PrismaUserRepository implements UserRepository {
 
     return user;
   }
+
   async findById(id: string): Promise<User | null> {
     const user = await prisma.user.findUnique({ where: { id }, include: { expenses: { orderBy: { createAt: 'desc' } } } });
+
+    if (!user) throw new UserNotFound();
 
     const totalExpenses = await prisma.expense.aggregate({
       where: { userId: id },
