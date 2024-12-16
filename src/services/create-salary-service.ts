@@ -9,7 +9,7 @@ interface CreateSalaryServiceResponse {
 
 interface CreateSalaryServiceRequest {
   amount: number;
-  PaymentDay: string;
+  PaymentDay: string | Date;
   userId: string;
 }
 
