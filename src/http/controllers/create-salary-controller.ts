@@ -1,6 +1,7 @@
 import { PrismaSalaryRepository } from '@/repositories/prisma/prisma-salary-repository';
 import { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 import { CreateSalaryService } from '@/services/create-salary-service';
+import { UserNotFound } from '@/services/errors/user-not-found';
 import { Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 
@@ -18,6 +19,10 @@ export async function CreateSalary(request: Request, response: Response) {
 
     return response.status(201).json({ salary });
   } catch (error) {
+    if (error instanceof UserNotFound) {
+      return response.status(404).json({ message: error.message });
+    }
+
     if (error instanceof ZodError) {
       return response.status(400).json({
         error: 'validation error',

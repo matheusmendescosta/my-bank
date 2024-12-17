@@ -1,7 +1,6 @@
 import { ExpenseRepository } from '@/repositories/expense-repository';
 import { UserRepository } from '@/repositories/user-repository';
 import { Expense } from '@prisma/client';
-import { UserNotFound } from './errors/user-not-found';
 
 interface ListExpenseServiceRequest {
   offset?: number;
