@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use('/api/v1/health', (req, res) => {
   res.status(200).json({
-    msg: 'health',
+    message: 'health',
   });
 });
 

@@ -7,11 +7,11 @@ import { Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 
 const bodySchema = z.object({
-  name: z.string().nullable(),
-  value: z.number().min(1, 'value is required'),
+  location: z.string().nullable(),
+  amount: z.number().min(1, 'value is required'),
   description: z.string().nullable(),
   typePayment: z.nativeEnum(TypePayment),
-  userId: z.string(),
+  username: z.string(),
 });
 
 export async function CreateExpense(request: Request, response: Response) {

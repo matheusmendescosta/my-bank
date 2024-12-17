@@ -2,11 +2,11 @@ import { PrismaSalaryRepository } from '@/repositories/prisma/prisma-salary-repo
 import { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 import { CreateSalaryService } from '@/services/create-salary-service';
 import { Request, Response } from 'express';
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
 
 const bodySchema = z.object({
   amount: z.number(),
-  PaymentDay: z.string().date(),
+  paymentDay: z.number().min(1, 'must be greater than 1').max(31, 'must be less than 31'),
   userId: z.string(),
 });
 
@@ -18,6 +18,13 @@ export async function CreateSalary(request: Request, response: Response) {
 
     return response.status(201).json({ salary });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return response.status(400).json({
+        error: 'validation error',
+        details: error.errors,
+      });
+    }
+
     console.log('error ======>', error);
     return response.status(500).json({ message: 'Internal server error' });
   }

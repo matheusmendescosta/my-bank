@@ -4,10 +4,10 @@ import { Expense, TypePayment } from '@prisma/client';
 import { UserNotFound } from './errors/user-not-found';
 
 interface CreateExpenseRequest {
-  name: string | null;
-  value: number;
+  location: string | null;
+  amount: number;
   description: string | null;
-  userId: string;
+  username: string;
   typePayment: TypePayment;
 }
 
@@ -18,17 +18,17 @@ interface CreateExpenseResponse {
 export class CreateExpenseService {
   constructor(private expenseRepository: ExpenseRepository, private userRepository: UserRepository) {}
 
-  async execute({ name, value, description, typePayment, userId }: CreateExpenseRequest): Promise<CreateExpenseResponse> {
-    const user = await this.userRepository.findById(userId);
+  async execute({ location, amount, description, typePayment, username }: CreateExpenseRequest): Promise<CreateExpenseResponse> {
+    const user = await this.userRepository.findByUsername(username);
 
     if (!user) throw new UserNotFound();
 
     const expense = await this.expenseRepository.create({
-      name,
-      value,
+      location,
+      amount,
       description,
       typePayment,
-      userId,
+      username,
     });
 
     return { expense };

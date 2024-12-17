@@ -5,8 +5,9 @@ import { Request, Response } from 'express';
 import { z, ZodError } from 'zod';
 
 const bodySchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Email is required'),
+  name: z.string(),
+  email: z.string().email('Email is not valid'),
+  username: z.string(),
 });
 
 export async function Create(request: Request, response: Response) {
@@ -28,6 +29,8 @@ export async function Create(request: Request, response: Response) {
     if (error instanceof userAlreadyExistsError) {
       return response.status(409).json({ message: error.message });
     }
+
+    console.log(error);
 
     return response.status(500).json({ error: 'Internal server error' });
   }

@@ -18,40 +18,41 @@ model User {
   createdAt        DateTime           @default(now())
   email            String             @unique
   name             String
+  username         String             @unique
   expenses         Expense[]
-  RecurringExpense RecurringExpense[]
-  Salary           Salary[]
+  recurringExpense RecurringExpense[]
+  salary           Salary[]
 
   @@map("user")
 }
 
 model Expense {
-  id          String   @id @default(uuid())
-  createAt    DateTime @default(now())
-  name        String?
-  value       Decimal
+  id          String      @id @default(uuid())
+  createAt    DateTime    @default(now())
+  location    String?
+  amount      Decimal
   description String?
   typePayment TypePayment
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String
+  user        User        @relation(fields: [username], references: [username])
+  username    String
 
   @@map("expense")
 }
 
 model Salary {
-  id         String   @id @default(uuid())
+  id         String  @id @default(uuid())
   amount     Decimal
-  PaymentDay DateTime
-  user       User     @relation(fields: [userId], references: [id])
+  paymentDay Int
+  user       User    @relation(fields: [userId], references: [id])
   userId     String
 
   @@map("salary")
 }
 
 model RecurringExpense {
-  id                   String   @id @default(uuid())
-  RecurringExpenseDate DateTime
-  user                 User     @relation(fields: [userId], references: [id])
+  id                   String @id @default(uuid())
+  recurringExpenseDate Int
+  user                 User   @relation(fields: [userId], references: [id])
   userId               String
 
   @@map("recurring_expense")

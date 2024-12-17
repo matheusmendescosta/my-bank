@@ -6,7 +6,7 @@ export class PrismaExpenseRepository implements ExpenseRepository {
   async list(
     offset: number = 1,
     limit: number = 25,
-    userId?: string
+    username?: string
   ): Promise<{
     totalCount: number;
     hasMore: boolean;
@@ -17,7 +17,7 @@ export class PrismaExpenseRepository implements ExpenseRepository {
     const count = await prisma.expense.count();
 
     const data = await prisma.expense.findMany({
-      where: userId ? { userId } : {},
+      where: username ? { username } : {},
       take: limit,
       skip: (offset - 1) * limit,
       orderBy: {

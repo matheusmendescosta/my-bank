@@ -5,7 +5,7 @@ export interface ExpenseRepository {
   list(
     offset?: number,
     limit?: number,
-    userId?: string
+    username?: string
   ): Promise<{
     totalCount: number;
     hasMore: boolean;
