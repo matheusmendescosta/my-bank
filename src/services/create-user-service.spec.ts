@@ -18,7 +18,7 @@ describe('CreateUserService', () => {
     createUserService = new CreateUserService(userRepository);
   });
 
-  it('should create a user successfully create teste', async () => {
+  it('should create a user successfully create', async () => {
     const user: User = {
       id: '123',
       name: 'John Doe',
