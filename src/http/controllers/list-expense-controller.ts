@@ -30,7 +30,6 @@ export async function FindExpenseController(request: Request, response: Response
 
     if (error instanceof ZodError) {
       return response.status(400).json({
-        error: 'validation error',
         details: error.errors,
       });
     }
