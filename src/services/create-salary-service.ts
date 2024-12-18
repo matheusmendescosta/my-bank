@@ -3,13 +3,14 @@ import { UserRepository } from '@/repositories/user-repository';
 import { Salary } from '@prisma/client';
 import { UserNotFound } from './errors/user-not-found';
 import { UsernameSalaryExistsError } from './errors/username-salary-exists-error';
+import { Decimal } from '@prisma/client/runtime/library';
 
 interface CreateSalaryServiceResponse {
   salary: Salary;
 }
 
 interface CreateSalaryServiceRequest {
-  amount: number;
+  amount: number | Decimal;
   paymentDay: number;
   username: string;
 }
